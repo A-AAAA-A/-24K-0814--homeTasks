@@ -1,13 +1,12 @@
 #include <iostream>
-#include <cstdlib>
-#include <ctime> 
+
 
 using namespace std;
 
 
 
 
-int randomNumberInRange = 0 + (std::rand() % (100 + 1));
+int randomNumberInRange = 0 + (rand() % (100 + 1));
 
 
 
