@@ -1,20 +1,22 @@
 #include <iostream>
 
-struct Node {
+using namespace std;
+
+struct GameNode {
     int data;
-    Node* left;
-    Node* right;
+    GameNode* left;
+    GameNode* right;
 };
 
-Node* newNode(int data) {
-    Node* node = new Node();
+GameNode* newGameNode(int data) {
+    GameNode* node = new GameNode();
     node->data = data;
     node->left = nullptr;
     node->right = nullptr;
     return node;
 }
 
-bool isFullBinaryTree(Node* root) {
+bool isFullBinaryTree(GameNode* root) {
     if (root == nullptr) {
         return true;
     }
@@ -30,37 +32,32 @@ bool isFullBinaryTree(Node* root) {
     return false;
 }
 
-int main() {
-    Node* root = newNode(1);
-    root->left = newNode(2);
-    root->right = newNode(3);
-    root->left->left = newNode(4);
-    root->left->right = newNode(5);
-    root->right->left = newNode(6);
-    root->right->right = newNode(7);
+void deleteTree(GameNode* node) {
+    if (node == nullptr) return;
+    deleteTree(node->left);
+    deleteTree(node->right);
+    delete node;
+}
 
-    std::cout << "--- Game Level Tree Structure ---" << std::endl;
-    std::cout << "Root: Level 1" << std::endl;
-    std::cout << "Children of 1: Levels 2 (left) and 3 (right)" << std::endl;
-    std::cout << "Children of 2: Levels 4 and 5" << std::endl;
-    std::cout << "Children of 3: Levels 6 and 7" << std::endl;
-    std::cout << "-------------------------------" << std::endl;
+int main() {
+    GameNode* root = newGameNode(1);
+    root->left = newGameNode(2);
+    root->right = newGameNode(3);
+    root->left->left = newGameNode(4);
+    root->left->right = newGameNode(5);
+    root->right->left = newGameNode(6);
+    root->right->right = newGameNode(7);
+
+    cout << "--- Game Level Tree Check ---" << endl;
+    cout << "Created a sample tree." << endl;
 
     if (isFullBinaryTree(root)) {
-        std::cout << "The created tree is a **Full Binary Tree**." << std::endl;
-        std::cout << "This structure adheres to the rule that every node has either zero or two children, ensuring symmetrical gameplay progression." << std::endl;
+        cout << "Result: **Full Binary Tree** confirmed." << endl;
     } else {
-        std::cout << "The created tree is **NOT** a Full Binary Tree." << std::endl;
-        std::cout << "A full binary tree requires every internal node to have exactly two children." << std::endl;
+        cout << "Result: **NOT** a Full Binary Tree." << endl;
     }
 
-    delete root->left->left;
-    delete root->left->right;
-    delete root->right->left;
-    delete root->right->right;
-    delete root->left;
-    delete root->right;
-    delete root;
+    deleteTree(root);
 
     return 0;
 }
